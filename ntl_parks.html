@@ -3,9 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>National Parks</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="mtn_info.html">Mountain Information</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="mx-auto order-0">
+                <a class="navbar-brand mx-auto" href="#">National Parks</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+            <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="location">Location:</label>
+                    <select class="form-control" id="location">
+                        <option value="">Select a State or Territory</option>
+                        <option value="">View All</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="locationName">Park Type:</label>
+                    <select class="form-control" id="locationName">
+                        <option value="">All</option>
+                        <option value="National Park">National Park</option>
+                        <option value="National Monument">National Monument</option>
+                        <option value="National Preserve">National Preserve</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <button class="btn btn-primary" onclick="searchParks()">Search</button>
+            </div>
+        </div>
+        <div id="parkResults" class="mt-4">
+            <!-- Park results will be displayed here -->
+        </div>
+    </div>
+
+    <script src="locationData.js"></script>
+    <script>
+        function populateLocations() {
+            var locationSelect = document.getElementById("location");
+            locationsArray.forEach(function(state) {
+                var option = document.createElement("option");
+                option.value = state;
+                option.text = state;
+                locationSelect.appendChild(option);
+            });
+        }
+        window.onload = populateLocations;
+    </script>
+    <script src="nationalParkData.js"></script>
+    <script>
+        function searchParks() {
+            var location = document.getElementById("location").value;
+            var locationName = document.getElementById("locationName").value;
     
+            // Filter parks based on state/territory and locationName
+            var parksByLocation = nationalParksArray.filter(function(park) {
+                return (location === "" || park.State === location) &&
+                       (locationName === "" || park.LocationName === locationName);
+            });
+    
+            // Display filtered parks by state/territory
+            displayParks(parksByLocation);
+        }
+    
+        function displayParks(parks) {
+            var parkResultsDiv = document.getElementById("parkResults");
+            parkResultsDiv.innerHTML = ""; // Clear previous results
+    
+            if (parks.length === 0) {
+                parkResultsDiv.textContent = "No parks found.";
+            } else {
+                var ul = document.createElement("ul");
+                parks.forEach(function(park) {
+                    var li = document.createElement("li");
+                    li.textContent = `${park.LocationName} - ${park.City}, ${park.State}`;
+                    if (park.Visit) {
+                        var link = document.createElement("a");
+                        link.href = park.Visit;
+                        link.textContent = " (More info)";
+                        link.target = "_blank";
+                        li.appendChild(link);
+                    }
+                    ul.appendChild(li);
+                });
+                parkResultsDiv.appendChild(ul);
+            }
+        }
+    </script>
 </body>
 </html>
