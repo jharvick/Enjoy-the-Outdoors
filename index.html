@@ -6,18 +6,22 @@
     <title>Welcome to the outdoors!</title>
     <!-- Add Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .center-buttons {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .center-buttons a {
+            margin: 0 10px;
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
                 <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="mtn_info.html">Mountain Information</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="ntl_parks.html">National Parks</a>
-                    </li>
                 </ul>
             </div>
             <div class="mx-auto order-0">
@@ -30,6 +34,25 @@
             </div>
         </div>
     </nav>
-    <p>We are a simple organization dedicated to bringing you the best of the outdoors. Explore with us!</p>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="text-center" style="margin-top: 200px;">
+                    <!-- Content -->
+                </div>
+                <div class="d-flex justify-content-center align-items-center" style="margin-top: 20px;">
+                    <div class="p-2 text-center">
+                        <img src="assets/images/nat-park-logo.png" class="img-fluid" alt="Welcome to the outdoors" style="width: 200px; height: 200px;">
+                        <a class="btn btn-primary mt-2" href="ntl_parks.html" style="padding: 10px 20px;">National Parks</a>
+                    </div>
+                    <div class="p-2 text-center" style="margin-left: 20px;">
+                        <img src="assets/images/mountain-logo.png" class="img-fluid" alt="Welcome to the outdoors" style="width: 200px; height: 200px;">
+                        <a class="btn btn-primary mt-2" href="mtn_info.html" style="padding: 10px 20px;">Mountain Information</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
 </body>
 </html>

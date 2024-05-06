@@ -6,6 +6,12 @@
     <title>Mountain info</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script> -->
+    <style>
+        /* CSS to hide the mountain information container initially */
+        .hidden {
+            display: none;
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -32,24 +38,36 @@
     </nav>
 
     <div class="container mt-4">
-        <div class="row">
+        <div class="row justify-content-center">
             <div class="col-md-6">
-                <div class="form-group">
-                    <label for="location">Mountain:</label>
-                    <select class="form-control" id="mountain">
-                        <option value="">Select a Mountain</option>
-                    </select>
+                <div class="card border border-dark">
+                    <img src="assets/images/yodeler.gif" class="card-img-top" alt="Yodeler GIF">
+                    <div class="card-body">
+                        <h5 class="card-title text-center mb-4">Search Mountain</h5>
+                        <form id="searchForm" onsubmit="event.preventDefault(); searchMountain()">
+                            <div class="form-group">
+                                <label for="location">Mountain:</label>
+                                <select class="form-control" id="mountain">
+                                    <option value="">Select a Mountain</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">Search</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-12">
-                <button class="btn btn-primary" onclick="searchMountain()">Search</button>
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-6">
+                <!-- Add hidden class to initially hide the mountain information container -->
+                <div class="card hidden" id="mountainInfo">
+                    <div class="card-body">
+                        <!-- Mountain information will be displayed here -->
+                    </div>
+                </div>
             </div>
         </div>
-        <div id="mountainInfo" class="mt-4">
-            <!-- Mountain information will be displayed here -->
-        </div>
+
     </div>
 
     <script src="mountainData.js"></script>
@@ -85,29 +103,30 @@
             var mountainInfo = document.getElementById("mountainInfo");
             var sunsetData = await getSunsetForMountain(mountain.coords.lat, mountain.coords.lng);
 
-            mountainInfo.innerHTML = `
-                <h2>${mountain.name}</h2>
-                <img src="assets/images/${mountain.img}" alt="${mountain.name}">
-                <p>Description: ${mountain.desc}</p>
-                <p>Elevation: ${mountain.elevation}</p>
-                <p>Effort level: ${mountain.effort}</p>
-                <p>Coordinates: (${mountain.coords.lat}, ${mountain.coords.lng})
-                    <a href="https://www.google.com/maps/search/?api=1&query=${mountain.coords.lat},${mountain.coords.lng}" target="_blank">View on Google Maps</a>    
-                </p>
-                <p>Sunrise: ${sunsetData.results.sunrise} UTC</p>
-                <p>Sunset: ${sunsetData.results.sunset} UTC</p>
-            `;
-
-            // var map = new google.maps.Map(document.getElementById("map"), {
-            //     center: { lat: mountain.coords.lat, lng: mountain.coords.lng },
-            //     zoom: 8
-            // });
-
-            // var marker = new google.maps.Marker({
-            //     position: { lat: mountain.coords.lat, lng: mountain.coords.lng },
-            //     map: map,
-            //     title: mountain.name
-            // });
+            // Show or hide the mountain information container based on whether the mountain info is available
+            if (mountain) {
+                mountainInfo.classList.remove('hidden');
+                mountainInfo.innerHTML = `
+                    <div class="card border border-dark mb-3">
+                        <div class="card-body">
+                            <h2>${mountain.name}</h2>
+                            <img class="card-img-top mb-3 border border-dark" src="assets/images/${mountain.img}" alt="${mountain.name}">
+                            <p class="mb-2"><strong class="font-weight-bold">Description:</strong> ${mountain.desc}</p>
+                            <p class="mb-2"><strong class="font-weight-bold">Elevation:</strong> ${mountain.elevation}</p>
+                            <p class="mb-2"><strong class="font-weight-bold">Effort level:</strong> ${mountain.effort}</p>
+                            <p class="mb-2"><strong class="font-weight-bold">Coordinates:</strong> (${mountain.coords.lat}, ${mountain.coords.lng})
+                                <a href="https://www.google.com/maps/search/?api=1&query=${mountain.coords.lat},${mountain.coords.lng}" target="_blank">View on Google Maps</a>    
+                            </p>
+                            <p class="mb-2"><strong class="font-weight-bold">Sunrise:</strong> ${sunsetData.results.sunrise} UTC</p>
+                            <p><strong class="font-weight-bold">Sunset:</strong> ${sunsetData.results.sunset} UTC</p>
+                        </div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                mountainInfo.classList.add('hidden');
+                mountainInfo.innerHTML = ''; // Clear any previous content
+            }
         }
     </script>
 </body>
