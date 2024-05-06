@@ -44,11 +44,21 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="locationName">Park Type:</label>
-                    <select class="form-control" id="locationName">
+                    <select class="form-control" id="parkType">
                         <option value="">All</option>
                         <option value="National Park">National Park</option>
                         <option value="National Monument">National Monument</option>
-                        <option value="National Preserve">National Preserve</option>
+                        <option value="Recreation Area">Recreation Area</option>
+                        <option value="Scenic Trail">Scenic Trail</option>
+                        <option value="Battlefield">Battlefield</option>
+                        <option value="Historic">Historic</option>
+                        <option value="Memorial">Memorial</option>
+                        <option value="Preserve">Preserve</option>
+                        <option value="Island">Island</option>
+                        <option value="River">River</option>
+                        <option value="Seashore">Seashore</option>
+                        <option value="Trail">Trail</option>
+                        <option value="Parkway">Parkway</option>
                     </select>
                 </div>
             </div>
@@ -77,24 +87,24 @@
         window.onload = populateLocations;
     </script>
     <script src="nationalParkData.js"></script>
+    <script src="parkTypeData.js"></script>
     <script>
         function searchParks() {
             var location = document.getElementById("location").value;
-            var locationName = document.getElementById("locationName").value;
+            var parkType = document.getElementById("parkType").value.toLowerCase();
     
-            // Filter parks based on state/territory and locationName
-            var parksByLocation = nationalParksArray.filter(function(park) {
+            // Filter parks based on state/territory and park type
+            var filteredParks = nationalParksArray.filter(function(park) {
                 return (location === "" || park.State === location) &&
-                       (locationName === "" || park.LocationName === locationName);
+                       (parkType === "" || park.LocationName.toLowerCase().includes(parkType));
             });
-    
-            // Display filtered parks by state/territory
-            displayParks(parksByLocation);
+
+            displayParks(filteredParks);
         }
     
         function displayParks(parks) {
             var parkResultsDiv = document.getElementById("parkResults");
-            parkResultsDiv.innerHTML = ""; // Clear previous results
+            parkResultsDiv.innerHTML = "";
     
             if (parks.length === 0) {
                 parkResultsDiv.textContent = "No parks found.";
