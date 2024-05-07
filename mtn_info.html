@@ -109,7 +109,6 @@
             var mountainInfo = document.getElementById("mountainInfo");
             var sunsetData = await getSunsetForMountain(mountain.coords.lat, mountain.coords.lng);
 
-            // Show or hide the mountain information container based on whether the mountain info is available
             if (mountain) {
                 mountainInfo.classList.remove('hidden');
                 mountainInfo.innerHTML = `
