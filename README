@@ -1,0 +1,46 @@
+# Mountain Information Project
+
+This project provides information about various mountains. It allows users to select a mountain and view details about it, including its name, image, description, elevation, and the sunrise and sunset times at its location.
+
+## Features
+
+- **Mountain Selection**: Users can select a mountain to view information about.
+- **Mountain Information Display**: Displays information about the selected mountain, including its name, image, description, elevation, and the sunrise and sunset times at its location.
+- **Sunrise and Sunset Times**: Fetches and displays the sunrise and sunset times at the location of the selected mountain using the Sunrise-Sunset API.
+
+## How to Use
+
+### For `mtn_info.html`:
+
+1. Open `mtn_info.html` in your web browser.
+2. Select a mountain from the dropdown menu.
+3. The information about the selected mountain, including name, image, elevation, effort level, description, coordinates, and sunset time, will be displayed on the page.
+
+### For `ntl_parks.html`:
+
+1. Open `ntl_parks.html` in your web browser.
+2. Select a national park from the dropdown menu.
+3. The information about the selected national park, including name, image, description, and other relevant details, will be displayed on the page.
+
+## Interesting Code
+
+One interesting piece of JavaScript code used in this project is the `getSunsetForMountain` function. This function uses the Fetch API to make a request to the Sunrise-Sunset API and get the sunrise and sunset times for a specific location. Here's the code:
+
+```javascript
+async function getSunsetForMountain(lat, lng){
+    let response = await fetch(`https://api.sunrise-sunset.org/json?lat=${lat}&lng=${lng}&date=today`);
+    let data = await response.json();
+    return data;
+}
+
+## Technologies Used
+
+- HTML
+- CSS
+- JavaScript
+- Sunrise-Sunset API
+
+## Future Improvements
+
+- Add more mountains to the selection.
+- Improve the UI/UX of the information display.
