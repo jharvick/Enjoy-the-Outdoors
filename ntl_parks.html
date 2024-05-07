@@ -20,7 +20,7 @@
                 </ul>
             </div>
             <div class="mx-auto order-0">
-                <a class="navbar-brand mx-auto" href="#">National Parks</a>
+                <a class="navbar-brand mx-auto" href="#">Enjoy the Outdoors!</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -31,46 +31,69 @@
     </nav>
 
     <div class="container mt-4">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="location">Location:</label>
-                    <select class="form-control" id="location">
-                        <option value="">Select a State or Territory</option>
-                        <option value="">View All</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="locationName">Park Type:</label>
-                    <select class="form-control" id="parkType">
-                        <option value="">All</option>
-                        <option value="National Park">National Park</option>
-                        <option value="National Monument">National Monument</option>
-                        <option value="Recreation Area">Recreation Area</option>
-                        <option value="Scenic Trail">Scenic Trail</option>
-                        <option value="Battlefield">Battlefield</option>
-                        <option value="Historic">Historic</option>
-                        <option value="Memorial">Memorial</option>
-                        <option value="Preserve">Preserve</option>
-                        <option value="Island">Island</option>
-                        <option value="River">River</option>
-                        <option value="Seashore">Seashore</option>
-                        <option value="Trail">Trail</option>
-                        <option value="Parkway">Parkway</option>
-                    </select>
+        <div class="container mt-4">
+            <div class="card border border-dark">
+                <div class="card-body">
+                    <div class="container text-center">
+                        <h1 class="display-4">National Parks</h1>
+                        <p class="lead">Use this page to find your next adventure!</p>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <img src="assets/images/tatooine.webp" class="card-img-top img-fluid h-50 w-50 mb-3" alt="National Parks">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="location">Location:</label>
+                                <select class="form-control" id="location">
+                                    <option value="">Select a State or Territory</option>
+                                    <option value="">View All</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="locationName">Park Type:</label>
+                                <select class="form-control" id="parkType">
+                                    <option value="">All</option>
+                                    <option value="National Park">National Park</option>
+                                    <option value="National Monument">National Monument</option>
+                                    <option value="Recreation Area">Recreation Area</option>
+                                    <option value="Scenic Trail">Scenic Trail</option>
+                                    <option value="Battlefield">Battlefield</option>
+                                    <option value="Historic">Historic</option>
+                                    <option value="Memorial">Memorial</option>
+                                    <option value="Preserve">Preserve</option>
+                                    <option value="Island">Island</option>
+                                    <option value="River">River</option>
+                                    <option value="Seashore">Seashore</option>
+                                    <option value="Trail">Trail</option>
+                                    <option value="Parkway">Parkway</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button class="btn btn-primary btn-block" onclick="searchParks()">Search</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-12">
-                <button class="btn btn-primary" onclick="searchParks()">Search</button>
-            </div>
-        </div>
+        
         <div id="parkResults" class="mt-4">
             <!-- Park results will be displayed here -->
         </div>
+        <footer class="footer">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-6 text-center">
+                        <p><em>* Tatooine national park not yet available to visit</em></p>
+                    </div>
+                </div>
+            </div>
+        </footer>
     </div>
 
     <script src="locationData.js"></script>
@@ -105,24 +128,63 @@
         function displayParks(parks) {
             var parkResultsDiv = document.getElementById("parkResults");
             parkResultsDiv.innerHTML = "";
-    
+
             if (parks.length === 0) {
                 parkResultsDiv.textContent = "No parks found.";
             } else {
-                var ul = document.createElement("ul");
-                parks.forEach(function(park) {
-                    var li = document.createElement("li");
-                    li.textContent = `${park.LocationName} - ${park.City}, ${park.State}`;
-                    if (park.Visit) {
-                        var link = document.createElement("a");
-                        link.href = park.Visit;
-                        link.textContent = " (More info)";
-                        link.target = "_blank";
-                        li.appendChild(link);
+                var row;
+                parks.forEach(function(park, index) {
+                    if (index % 3 === 0) {
+                        row = document.createElement("div");
+                        row.classList.add("row", "row-cols-1", "row-cols-md-3", "g-4");
+                        parkResultsDiv.appendChild(row);
                     }
-                    ul.appendChild(li);
+
+                    var col = document.createElement("div");
+                    col.classList.add("col");
+                    var card = document.createElement("div");
+                    card.classList.add("card", "mb-4"); 
+
+                    var cardBody = document.createElement("div");
+                    cardBody.classList.add("card-body", "text-center", "border", "border-dark");
+
+                    var parkName = document.createElement("h5");
+                    parkName.classList.add("card-title");
+                    parkName.textContent = park.LocationName;
+
+                    var parkLocation = document.createElement("p");
+                    parkLocation.classList.add("card-text");
+                    parkLocation.textContent = `${park.City}, ${park.State}`;
+
+                    var coordinates = document.createElement("p");
+                    coordinates.classList.add("card-text");
+                    coordinates.textContent = `Coordinates: (${park.Latitude}, ${park.Longitude})`;
+
+                    var mapLink = document.createElement("a");
+                    mapLink.href = `https://www.google.com/maps/search/?api=1&query=${park.Latitude},${park.Longitude}`;
+                    mapLink.textContent = "View on Google Maps";
+                    mapLink.target = "_blank";
+
+                    cardBody.appendChild(parkName);
+                    cardBody.appendChild(parkLocation);
+                    cardBody.appendChild(coordinates);
+                    cardBody.appendChild(mapLink);
+
+                    if (park.Visit) {
+                        cardBody.appendChild(document.createElement("br"));
+
+                        var parkLink = document.createElement("a");
+                        parkLink.href = park.Visit;
+                        parkLink.textContent = "More Info";
+                        parkLink.classList.add("btn", "btn-primary", "mt-2");
+                        parkLink.target = "_blank";
+                        cardBody.appendChild(parkLink);
+                    }
+
+                    card.appendChild(cardBody);
+                    col.appendChild(card);
+                    row.appendChild(col);
                 });
-                parkResultsDiv.appendChild(ul);
             }
         }
     </script>
